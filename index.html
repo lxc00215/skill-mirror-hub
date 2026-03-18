@@ -3,65 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillHub Mirror | 🦞 OpenClaw</title>
+    <title>SkillHub Mirror | 真实数据版</title>
     <style>
-        :root { --primary: #ff4500; --bg: #0a0a0a; --text: #e0e0e0; --card: #1a1a1a; --border: #333; }
-        body { font-family: 'Inter', system-ui, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; overflow-x: hidden; }
-        header { width: 100%; padding: 3rem 0; text-align: center; border-bottom: 1px solid var(--border); background: linear-gradient(to bottom, #111, #0a0a0a); }
-        .logo { font-size: 3rem; font-weight: 800; color: var(--primary); text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.8rem; letter-spacing: -1px; }
+        :root { --primary: #ff4500; --bg: #050505; --text: #f0f0f0; --card: #121212; --border: #222; }
+        body { font-family: 'Inter', system-ui, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        header { width: 100%; padding: 4rem 0; text-align: center; background: linear-gradient(180deg, #111 0%, #050505 100%); border-bottom: 1px solid var(--border); }
+        .logo { font-size: 3.5rem; font-weight: 900; color: var(--primary); text-decoration: none; letter-spacing: -2px; }
         .logo span { color: #fff; }
-        .search-container { margin: -25px 0 3rem 0; width: 90%; max-width: 600px; z-index: 10; }
-        input { width: 100%; padding: 1.2rem; border-radius: 12px; border: 1px solid var(--border); background: #151515; color: white; font-size: 1.1rem; outline: none; box-shadow: 0 8px 24px rgba(0,0,0,0.5); transition: all 0.3s; }
-        input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255, 69, 0, 0.2); }
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; width: 90%; max-width: 1200px; margin-bottom: 5rem; }
-        .skill-card { background: var(--card); padding: 1.8rem; border-radius: 16px; border: 1px solid var(--border); transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; display: flex; flex-direction: column; }
-        .skill-card:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 12px 32px rgba(255, 69, 0, 0.1); }
-        .skill-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
-        .skill-name { font-size: 1.4rem; font-weight: 700; color: white; }
-        .skill-tag { background: #333; color: #bbb; padding: 0.25rem 0.7rem; border-radius: 20px; font-size: 0.75rem; text-transform: uppercase; font-weight: 600; }
-        .skill-desc { font-size: 1rem; color: #999; line-height: 1.6; flex-grow: 1; }
-        .install-cmd { background: #000; padding: 1rem; border-radius: 10px; font-family: 'Fira Code', monospace; font-size: 0.85rem; color: #00ff00; margin-top: 1.5rem; border: 1px solid #222; overflow-x: auto; white-space: nowrap; }
-        .install-cmd::before { content: '$ '; color: #666; }
-        footer { padding: 3rem; color: #444; font-size: 0.9rem; border-top: 1px solid var(--border); width: 100%; text-align: center; }
-        .empty-state { grid-column: 1 / -1; text-align: center; padding: 5rem; color: #666; font-size: 1.2rem; }
+        .search-container { margin: -30px 0 4rem 0; width: 90%; max-width: 700px; }
+        input { width: 100%; padding: 1.5rem; border-radius: 16px; border: 1px solid var(--border); background: #1a1a1a; color: white; font-size: 1.2rem; outline: none; box-shadow: 0 10px 40px rgba(0,0,0,0.6); transition: 0.3s; }
+        input:focus { border-color: var(--primary); transform: scale(1.02); }
+        .stats { margin-bottom: 2rem; color: #666; font-weight: 500; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; width: 90%; max-width: 1400px; margin-bottom: 5rem; }
+        .skill-card { background: var(--card); padding: 2rem; border-radius: 20px; border: 1px solid var(--border); transition: 0.3s; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+        .skill-card:hover { border-color: var(--primary); transform: translateY(-10px); background: #181818; }
+        .skill-emoji { font-size: 2.5rem; margin-bottom: 1rem; }
+        .skill-name { font-size: 1.6rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+        .skill-tag { position: absolute; top: 2rem; right: 2rem; background: #252525; color: #888; padding: 0.3rem 0.8rem; border-radius: 8px; font-size: 0.7rem; font-weight: 700; }
+        .skill-desc { font-size: 1rem; color: #aaa; line-height: 1.6; flex-grow: 1; }
+        .install-box { background: #000; padding: 1.2rem; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; color: #00ff00; margin-top: 2rem; border: 1px solid #222; position: relative; }
+        .install-box::after { content: 'COPY'; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); font-size: 0.6rem; color: #444; }
+        footer { width: 100%; padding: 4rem; text-align: center; border-top: 1px solid var(--border); color: #444; }
     </style>
 </head>
 <body>
     <header>
         <a href="#" class="logo">Skill<span>Hub</span></a>
-        <p style="color: #666; margin-top: 0.5rem;">Lobster-light. Agent-right. 镜像站</p>
+        <p style="color: #444; margin-top: 1rem;">CLAWD-POWERED REAL-TIME MIRROR</p>
     </header>
     
     <div class="search-container">
-        <input type="text" id="searchInput" placeholder="搜索全站 Skill... (例如: github, sonoscli, gmail)" oninput="filterSkills()">
+        <input type="text" id="searchInput" placeholder="搜索 52 个真实系统 Skill..." oninput="filterSkills()">
     </div>
 
-    <div class="skills-grid" id="skillsGrid">
-        <!-- JS 动态渲染 -->
-    </div>
+    <div class="stats" id="statsCounter">显示全部 52 个组件</div>
+
+    <div class="skills-grid" id="skillsGrid"></div>
 
     <footer>
-        &copy; 2026 SkillHub Mirror | 实时数据由 🦞 小龙 驱动 | Powered by OpenClaw
+        &copy; 2026 OpenClaw Ecosystem | 数据采集时间: 2026-03-18 13:27:01
     </footer>
 
     <script>
-        const allSkills = [{"name": "github", "desc": "Interact with GitHub using the gh CLI. Issues, PRs, runs, and API.", "tag": "Tool"}, {"name": "sonoscli", "desc": "Control Sonos speakers (discover, status, play, volume, group).", "tag": "Automation"}, {"name": "gmail", "desc": "Read, send, and manage your emails via Google Workspace API.", "tag": "Communication"}, {"name": "browser-agent", "desc": "Autonomous browsing and web automation for complex tasks.", "tag": "Browser"}, {"name": "spotify-player", "desc": "Terminal Spotify playback/search via spogo or spotify_player.", "tag": "Media"}, {"name": "notion", "desc": "Notion API for creating and managing pages, databases, and blocks.", "tag": "Notes"}, {"name": "obsidian", "desc": "Work with Obsidian vaults (plain Markdown notes) and automate via obsidian-cli.", "tag": "Notes"}, {"name": "weather", "desc": "Get current weather and forecasts via wttr.in or Open-Meteo.", "tag": "Utility"}, {"name": "discord", "desc": "Discord ops via the message tool (channel=discord).", "tag": "Social"}, {"name": "slack", "desc": "Control Slack from OpenClaw via the slack tool.", "tag": "Social"}, {"name": "1password", "desc": "Set up and use 1Password CLI (op) for secret management.", "tag": "Security"}, {"name": "feishu-doc", "desc": "Fetch content from Feishu (Lark) Wiki, Docs, Sheets, and Bitable.", "tag": "Work"}, {"name": "wecom-doc", "desc": "企业微信文档与智能表格操作脚本。", "tag": "Work"}, {"name": "ffmpeg-editor", "desc": "Generate FFmpeg commands from natural language video editing requests.", "tag": "Media"}, {"name": "market-research", "desc": "Size markets, analyze competitors, and validate opportunities.", "tag": "Research"}, {"name": "seo-writer", "desc": "Create high-quality, SEO-optimized content that ranks.", "tag": "Marketing"}, {"name": "code-agent", "desc": "Delegate coding tasks to Claude Code or Pi agents.", "tag": "Dev"}, {"name": "trello", "desc": "Manage Trello boards, lists, and cards via the REST API.", "tag": "Task"}];
+        const allSkills = [{"name": "1password", "desc": "Set up and use 1Password CLI (op). Use when installing the CLI, enabling desktop app integration, signing in (single or multi-account), or reading/injecting/running secrets via op.", "tag": "bundled", "emoji": "🔐"}, {"name": "apple-notes", "desc": "Manage Apple Notes via the `memo` CLI on macOS (create, view, edit, delete, search, move, and export notes). Use when a user asks OpenClaw to add a note, list notes, search notes, or manage note folders.", "tag": "bundled", "emoji": "📝"}, {"name": "apple-reminders", "desc": "Manage Apple Reminders via remindctl CLI (list, add, edit, complete, delete). Supports lists, date filters, and JSON/plain output.", "tag": "bundled", "emoji": "⏰"}, {"name": "bear-notes", "desc": "Create, search, and manage Bear notes via grizzly CLI.", "tag": "bundled", "emoji": "🐻"}, {"name": "blogwatcher", "desc": "Monitor blogs and RSS/Atom feeds for updates using the blogwatcher CLI.", "tag": "bundled", "emoji": "📰"}, {"name": "blucli", "desc": "BluOS CLI (blu) for discovery, playback, grouping, and volume.", "tag": "bundled", "emoji": "🫐"}, {"name": "bluebubbles", "desc": "Use when you need to send or manage iMessages via BlueBubbles (recommended iMessage integration). Calls go through the generic message tool with channel=\"bluebubbles\".", "tag": "bundled", "emoji": "🫧"}, {"name": "camsnap", "desc": "Capture frames or clips from RTSP/ONVIF cameras.", "tag": "bundled", "emoji": "📸"}, {"name": "clawhub", "desc": "Use the ClawHub CLI to search, install, update, and publish agent skills from clawhub.com. Use when you need to fetch new skills on the fly, sync installed skills to latest or a specific version, or publish new/updated skill folders with the npm-installed clawhub CLI.", "tag": "bundled", "emoji": "📦"}, {"name": "coding-agent", "desc": "Delegate coding tasks to Codex, Claude Code, or Pi agents via background process. Use when: (1) building/creating new features or apps, (2) reviewing PRs (spawn in temp dir), (3) refactoring large codebases, (4) iterative coding that needs file exploration. NOT for: simple one-liner fixes (just edit), reading code (use read tool), or any work in ~/clawd workspace (never spawn agents here). Requires a bash tool that supports pty:true.", "tag": "bundled", "emoji": "🧩"}, {"name": "discord", "desc": "Discord ops via the message tool (channel=discord).", "tag": "bundled", "emoji": "🎮"}, {"name": "eightctl", "desc": "Control Eight Sleep pods (status, temperature, alarms, schedules).", "tag": "bundled", "emoji": "🎛️"}, {"name": "gemini", "desc": "Gemini CLI for one-shot Q&A, summaries, and generation.", "tag": "bundled", "emoji": "♊️"}, {"name": "gh-issues", "desc": "Fetch GitHub issues, spawn sub-agents to implement fixes and open PRs, then monitor and address PR review comments. Usage: /gh-issues [owner/repo] [--label bug] [--limit 5] [--milestone v1.0] [--assignee @me] [--fork user/repo] [--watch] [--interval 5] [--reviews-only] [--cron] [--dry-run] [--model glm-5] [--notify-channel -1002381931352]", "tag": "bundled", "emoji": "📦"}, {"name": "gifgrep", "desc": "Search GIF providers with CLI/TUI, download results, and extract stills/sheets.", "tag": "bundled", "emoji": "🧲"}, {"name": "github", "desc": "GitHub operations via `gh` CLI: issues, PRs, CI runs, code review, API queries. Use when: (1) checking PR status or CI, (2) creating/commenting on issues, (3) listing/filtering PRs or issues, (4) viewing run logs. NOT for: complex web UI interactions requiring manual browser flows (use browser tooling when available), bulk operations across many repos (script with gh api), or when gh auth is not configured.", "tag": "bundled", "emoji": "🐙"}, {"name": "gog", "desc": "Google Workspace CLI for Gmail, Calendar, Drive, Contacts, Sheets, and Docs.", "tag": "bundled", "emoji": "🎮"}, {"name": "goplaces", "desc": "Query Google Places API (New) via the goplaces CLI for text search, place details, resolve, and reviews. Use for human-friendly place lookup or JSON output for scripts.", "tag": "bundled", "emoji": "📍"}, {"name": "healthcheck", "desc": "Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).", "tag": "bundled", "emoji": "📦"}, {"name": "himalaya", "desc": "CLI to manage emails via IMAP/SMTP. Use `himalaya` to list, read, write, reply, forward, search, and organize emails from the terminal. Supports multiple accounts and message composition with MML (MIME Meta Language).", "tag": "bundled", "emoji": "📧"}, {"name": "imsg", "desc": "iMessage/SMS CLI for listing chats, history, and sending messages via Messages.app.", "tag": "bundled", "emoji": "📨"}, {"name": "mcporter", "desc": "Use the mcporter CLI to list, configure, auth, and call MCP servers/tools directly (HTTP or stdio), including ad-hoc servers, config edits, and CLI/type generation.", "tag": "bundled", "emoji": "📦"}, {"name": "model-usage", "desc": "Use CodexBar CLI local cost usage to summarize per-model usage for Codex or Claude, including the current (most recent) model or a full model breakdown. Trigger when asked for model-level usage/cost data from codexbar, or when you need a scriptable per-model summary from codexbar cost JSON.", "tag": "bundled", "emoji": "📊"}, {"name": "nano-banana-pro", "desc": "Generate or edit images via Gemini 3 Pro Image (Nano Banana Pro).", "tag": "bundled", "emoji": "🍌"}, {"name": "nano-pdf", "desc": "Edit PDFs with natural-language instructions using the nano-pdf CLI.", "tag": "bundled", "emoji": "📄"}, {"name": "notion", "desc": "Notion API for creating and managing pages, databases, and blocks.", "tag": "bundled", "emoji": "📝"}, {"name": "obsidian", "desc": "Work with Obsidian vaults (plain Markdown notes) and automate via obsidian-cli.", "tag": "bundled", "emoji": "💎"}, {"name": "openai-image-gen", "desc": "Batch-generate images via OpenAI Images API. Random prompt sampler + `index.html` gallery.", "tag": "bundled", "emoji": "🖼️"}, {"name": "openai-whisper", "desc": "Local speech-to-text with the Whisper CLI (no API key).", "tag": "bundled", "emoji": "🎙️"}, {"name": "openai-whisper-api", "desc": "Transcribe audio via OpenAI Audio Transcriptions API (Whisper).", "tag": "bundled", "emoji": "☁️"}, {"name": "openhue", "desc": "Control Philips Hue lights and scenes via the OpenHue CLI.", "tag": "bundled", "emoji": "💡"}, {"name": "oracle", "desc": "Best practices for using the oracle CLI (prompt + file bundling, engines, sessions, and file attachment patterns).", "tag": "bundled", "emoji": "🧿"}, {"name": "ordercli", "desc": "Foodora-only CLI for checking past orders and active order status (Deliveroo WIP).", "tag": "bundled", "emoji": "🛵"}, {"name": "peekaboo", "desc": "Capture and automate macOS UI with the Peekaboo CLI.", "tag": "bundled", "emoji": "👀"}, {"name": "sag", "desc": "ElevenLabs text-to-speech with mac-style say UX.", "tag": "bundled", "emoji": "🗣️"}, {"name": "session-logs", "desc": "Search and analyze your own session logs (older/parent conversations) using jq.", "tag": "bundled", "emoji": "📜"}, {"name": "sherpa-onnx-tts", "desc": "Local text-to-speech via sherpa-onnx (offline, no cloud)", "tag": "bundled", "emoji": "🗣️"}, {"name": "skill-creator", "desc": "Create or update AgentSkills. Use when designing, structuring, or packaging skills with scripts, references, and assets.", "tag": "bundled", "emoji": "📦"}, {"name": "slack", "desc": "Use when you need to control Slack from OpenClaw via the slack tool, including reacting to messages or pinning/unpinning items in Slack channels or DMs.", "tag": "bundled", "emoji": "💬"}, {"name": "songsee", "desc": "Generate spectrograms and feature-panel visualizations from audio with the songsee CLI.", "tag": "bundled", "emoji": "🌊"}, {"name": "sonoscli", "desc": "Control Sonos speakers (discover/status/play/volume/group).", "tag": "bundled", "emoji": "🔊"}, {"name": "spotify-player", "desc": "Terminal Spotify playback/search via spogo (preferred) or spotify_player.", "tag": "bundled", "emoji": "🎵"}, {"name": "summarize", "desc": "Summarize or extract text/transcripts from URLs, podcasts, and local files (great fallback for “transcribe this YouTube/video”).", "tag": "bundled", "emoji": "🧾"}, {"name": "things-mac", "desc": "Manage Things 3 via the `things` CLI on macOS (add/update projects+todos via URL scheme; read/search/list from the local Things database). Use when a user asks OpenClaw to add a task to Things, list inbox/today/upcoming, search tasks, or inspect projects/areas/tags.", "tag": "bundled", "emoji": "✅"}, {"name": "tmux", "desc": "Remote-control tmux sessions for interactive CLIs by sending keystrokes and scraping pane output.", "tag": "bundled", "emoji": "🧵"}, {"name": "trello", "desc": "Manage Trello boards, lists, and cards via the Trello REST API.", "tag": "bundled", "emoji": "📋"}, {"name": "video-frames", "desc": "Extract frames or short clips from videos using ffmpeg.", "tag": "bundled", "emoji": "🎞️"}, {"name": "voice-call", "desc": "Start voice calls via the OpenClaw voice-call plugin.", "tag": "bundled", "emoji": "📞"}, {"name": "wacli", "desc": "Send WhatsApp messages to other people or search/sync WhatsApp history via the wacli CLI (not for normal user chats).", "tag": "bundled", "emoji": "📱"}, {"name": "weather", "desc": "Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed.", "tag": "bundled", "emoji": "🌤️"}, {"name": "xurl", "desc": "A CLI tool for making authenticated requests to the X (Twitter) API. Use this skill when you need to post tweets, reply, quote, search, read posts, manage followers, send DMs, upload media, or interact with any X API v2 endpoint.", "tag": "bundled", "emoji": "𝕏"}, {"name": "codex-quota", "desc": "Check OpenAI Codex CLI rate limit status (daily/weekly quotas) using local session logs. Portable Python script.\nReads ~/.codex/sessions/ for quota data. When using --all --yes, it temporarily switches accounts by overwriting ~/.codex/auth.json (restored afterwards) to query each account.\nUses the `codex` CLI for --fresh / --all.", "tag": "managed", "emoji": "📦"}];
 
-        function renderSkills(skills) {
+        function render(skills) {
             const grid = document.getElementById('skillsGrid');
-            if (skills.length === 0) {
-                grid.innerHTML = '<div class="empty-state">没有找到相关的 Skill 🦞</div>';
-                return;
-            }
+            const counter = document.getElementById('statsCounter');
+            counter.innerText = `已过滤出 ${skills.length} 个匹配组件`;
             
-            grid.innerHTML = skills.map(skill => `
+            grid.innerHTML = skills.map(s => `
                 <div class="skill-card">
-                    <div class="skill-header">
-                        <div class="skill-name">${skill.name}</div>
-                        <span class="skill-tag">${skill.tag}</span>
-                    </div>
-                    <div class="skill-desc">${skill.desc}</div>
-                    <div class="install-cmd">npx clawhub install ${skill.name}</div>
+                    <div class="skill-emoji">${s.emoji}</div>
+                    <div class="skill-tag">${s.tag}</div>
+                    <div class="skill-name">${s.name}</div>
+                    <div class="skill-desc">${s.desc}</div>
+                    <div class="install-box">npx clawhub install ${s.name}</div>
                 </div>
             `).join('');
         }
@@ -70,14 +67,12 @@
             const term = document.getElementById('searchInput').value.toLowerCase();
             const filtered = allSkills.filter(s => 
                 s.name.toLowerCase().includes(term) || 
-                s.desc.toLowerCase().includes(term) ||
-                s.tag.toLowerCase().includes(term)
+                s.desc.toLowerCase().includes(term)
             );
-            renderSkills(filtered);
+            render(filtered);
         }
 
-        // 初始化渲染
-        renderSkills(allSkills);
+        render(allSkills);
     </script>
 </body>
 </html>
